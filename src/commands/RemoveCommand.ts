@@ -30,7 +30,7 @@ export class RemoveCommand extends BaseCommand {
         }
 
         message.channel.send(
-            createEmbed("info", `✅ Removed **[${song.title}](${song.url}})**`)
+            createEmbed("info", `✅ 제거됨 **[${song.title}](${song.url}})**`)
                 .setThumbnail(song.thumbnail)
         ).catch(e => this.client.logger.error("REMOVE_COMMAND_ERR:", e));
     }
