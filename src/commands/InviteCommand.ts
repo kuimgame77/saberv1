@@ -5,7 +5,8 @@ import { disableInviteCmd } from "../config";
 import { IMessage } from "../../typings";
 
 @DefineCommand({
-    description: "Send the bot's invite link",
+    aliases: ["cheo", "초대"],
+    description: "초대 링크 보내기",
     disable: disableInviteCmd,
     name: "invite",
     usage: "{prefix}invite"
