@@ -5,8 +5,8 @@ import { createEmbed } from "../utils/createEmbed";
 import { IMessage } from "../../typings";
 
 @DefineCommand({
-    aliases: ["st", "disconnect", "dc"],
-    description: "Stop the music player",
+    aliases: ["dltkdwjdwl", "일시정지"],
+    description: "노래를 일시정지합니다",
     name: "stop",
     usage: "{prefix}stop"
 })
@@ -20,7 +20,7 @@ export class StopCommand extends BaseCommand {
         message.guild?.queue?.voiceChannel?.leave();
         message.guild!.queue = null;
 
-        message.channel.send(createEmbed("info", "⏹ **|** The music player has been stopped"))
+        message.channel.send(createEmbed("info", "⏹ **|** 일시정지됨"))
             .catch(e => this.client.logger.error("STOP_CMD_ERR:", e));
     }
 }
