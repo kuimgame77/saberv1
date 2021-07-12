@@ -11,10 +11,10 @@ import { decodeHTML } from "entities";
 let disconnectTimer: any;
 
 @DefineCommand({
-    aliases: ["p", "add", "play-music"],
-    description: "Play some music",
+    aliases: ["p", "wotod", "ㅔ", "재생"],
+    description: "노래 재생",
     name: "play",
-    usage: "{prefix}play <youtube video or playlist link | youtube video name>"
+    usage: "{prefix}play <제목 또는 링크>"
 })
 export class PlayCommand extends BaseCommand {
     private readonly _playlistAlreadyQueued: ISong[] = [];
@@ -108,10 +108,10 @@ export class PlayCommand extends BaseCommand {
                     let index = 0;
                     const msg = await message.channel.send(new MessageEmbed()
                         .setColor(this.client.config.embedColor)
-                        .setAuthor("Music Selection", message.client.user?.displayAvatarURL() as string)
+                        .setAuthor("노래 선택", message.client.user?.displayAvatarURL() as string)
                         .setDescription(`\`\`\`${videos.map(video => `${++index} - ${this.cleanTitle(video.title)}`).join("\n")}\`\`\`` +
-                        "\nPlease select one of the results ranging from **\`1-10\`**")
-                        .setFooter("• Type cancel or c to cancel the music selection"));
+                        "\n숫자 선택 **\`1-10\`**")
+                        .setFooter("• 취소하려면 c "));
                     try {
                     // eslint-disable-next-line no-var
                         var response = await message.channel.awaitMessages((msg2: IMessage) => {
@@ -164,14 +164,14 @@ export class PlayCommand extends BaseCommand {
             }
             message.guild.queue.songs.addSong(song);
             if (!playlist) {
-                message.channel.send(createEmbed("info", `✅ **|** **[${song.title}](${song.url})** has been added to the queue`).setThumbnail(song.thumbnail))
+                message.channel.send(createEmbed("info", `✅ **|** **[${song.title}](${song.url})** 대기열에 추가되었습니다`).setThumbnail(song.thumbnail))
                     .catch(e => this.client.logger.error("PLAY_CMD_ERR:", e));
             }
         } else {
             message.guild!.queue = new ServerQueue(message.channel as ITextChannel, voiceChannel);
             message.guild?.queue.songs.addSong(song);
             if (!playlist) {
-                message.channel.send(createEmbed("info", `✅ **|** **[${song.title}](${song.url})** has been added to the queue`).setThumbnail(song.thumbnail))
+                message.channel.send(createEmbed("info", `✅ **|** **[${song.title}](${song.url})** 대기열에 추가되었습니다`).setThumbnail(song.thumbnail))
                     .catch(e => this.client.logger.error("PLAY_CMD_ERR:", e));
             }
             try {
@@ -203,12 +203,12 @@ export class PlayCommand extends BaseCommand {
             if (serverQueue.lastMusicMessageID !== null) serverQueue.textChannel?.messages.fetch(serverQueue.lastMusicMessageID, false).then(m => m.delete()).catch(e => this.client.logger.error("PLAY_ERR:", e));
             if (serverQueue.lastVoiceStateUpdateMessageID !== null) serverQueue.textChannel?.messages.fetch(serverQueue.lastVoiceStateUpdateMessageID, false).then(m => m.delete()).catch(e => this.client.logger.error("PLAY_ERR:", e));
             serverQueue.textChannel?.send(
-                createEmbed("info", `⏹ **|** The music has ended, use **\`${guild.client.config.prefix}play\`** to play some music`)
+                createEmbed("info", `⏹ **|** 음악이 종료되었습니다, 사용 **\`${guild.client.config.prefix}play\`** to play some music`)
             ).catch(e => this.client.logger.error("PLAY_ERR:", e));
             disconnectTimer = setTimeout(() => {
                 serverQueue.connection?.disconnect();
                 serverQueue.textChannel?.send(
-                    createEmbed("info", `👋 **|** Left from the voice channel because I've been inactive for too long.`)
+                    createEmbed("info", `👋 **|** 너무 오랫동안 활동하지 않았기 때문에 음성 채널에서 떠났습니다.`)
                 ).then(m => m.delete({ timeout: 5000 })).catch(e => e);
             }, timeout);
             return guild.queue = null;
@@ -231,7 +231,7 @@ export class PlayCommand extends BaseCommand {
                 serverQueue.playing = true;
                 this.client.logger.info(`${this.client.shard ? `[Shard #${this.client.shard.ids}]` : ""} Music: "${song.title}" on ${guild.name} has started`);
                 if (serverQueue.lastMusicMessageID !== null) serverQueue.textChannel?.messages.fetch(serverQueue.lastMusicMessageID, false).then(m => m.delete()).catch(e => this.client.logger.error("PLAY_ERR:", e));
-                serverQueue.textChannel?.send(createEmbed("info", `▶ **|** Started playing: **[${song.title}](${song.url})**`).setThumbnail(song.thumbnail))
+                serverQueue.textChannel?.send(createEmbed("info", `▶ **|** 재생 시작: **[${song.title}](${song.url})**`).setThumbnail(song.thumbnail))
                     .then(m => serverQueue.lastMusicMessageID = m.id)
                     .catch(e => this.client.logger.error("PLAY_ERR:", e));
             })
@@ -240,7 +240,7 @@ export class PlayCommand extends BaseCommand {
                 // eslint-disable-next-line max-statements-per-line
                 if (serverQueue.loopMode === 0) { serverQueue.songs.deleteFirst(); } else if (serverQueue.loopMode === 2) { serverQueue.songs.deleteFirst(); serverQueue.songs.addSong(song); }
                 if (serverQueue.lastMusicMessageID !== null) serverQueue.textChannel?.messages.fetch(serverQueue.lastMusicMessageID, false).then(m => m.delete()).catch(e => this.client.logger.error("PLAY_ERR:", e));
-                serverQueue.textChannel?.send(createEmbed("info", `⏹ **|** Stopped playing **[${song.title}](${song.url})**`).setThumbnail(song.thumbnail))
+                serverQueue.textChannel?.send(createEmbed("info", `⏹ **|** 재생 중지 **[${song.title}](${song.url})**`).setThumbnail(song.thumbnail))
                     .then(m => serverQueue.lastMusicMessageID = m.id)
                     .catch(e => this.client.logger.error("PLAY_ERR:", e))
                     .finally(() => {
