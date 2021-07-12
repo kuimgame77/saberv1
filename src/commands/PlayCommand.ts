@@ -131,7 +131,7 @@ export class PlayCommand extends BaseCommand {
                         return message.channel.send(createEmbed("error", "None or invalid value entered, the music selection has canceled"));
                     }
                     if (response.first()?.content === "c" || response.first()?.content === "cancel") {
-                        return message.channel.send(createEmbed("warn", "The music selection has canceled"));
+                        return message.channel.send(createEmbed("warn", "노래 선택 취소"));
                     }
                     const videoIndex = parseInt(response.first()?.content as string);
                     video = await this.client.youtube.getVideo(videos[videoIndex - 1].id);
