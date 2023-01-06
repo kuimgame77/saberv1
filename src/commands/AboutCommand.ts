@@ -8,7 +8,7 @@ import { version } from "discord.js";
 import path from "path";
 
 @DefineCommand({
-    aliases: ["botinfo", "info", "stats"],
+    aliases: ["botinfo", "info", "stats", "정보"],
     description: "Send the information about the bot",
     name: "about",
     usage: "{prefix}about"
