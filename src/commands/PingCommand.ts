@@ -4,7 +4,7 @@ import { IMessage } from "../../typings";
 import { MessageEmbed } from "discord.js";
 
 @DefineCommand({
-    aliases: ["pong", "pang", "pung", "peng", "pingpong"],
+    aliases: ["pong", "pang", "pung", "peng", "pingpong", "핑"],
     description: "Show the current ping of the bot",
     name: "ping",
     usage: "{prefix}ping"
@@ -15,7 +15,7 @@ export class PingCommand extends BaseCommand {
             const latency = msg.createdTimestamp - message.createdTimestamp;
             const wsLatency = this.client.ws.ping.toFixed(0);
             const embed = new MessageEmbed()
-                .setAuthor("🏓 PONG", message.client.user?.displayAvatarURL())
+                .setAuthor("🏓 퐁!", message.client.user?.displayAvatarURL())
                 .setColor(this.searchHex(wsLatency))
                 .addFields({
                     name: "📶 **|** API",
